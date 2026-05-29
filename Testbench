@@ -1,0 +1,37 @@
+module tb;
+  
+  reg clk,reset,seq_in;
+  wire out;
+  
+  moore uut (clk,reset,seq_in,out);
+  
+  initial
+    begin
+      clk=0;
+      forever #5 clk=~clk;
+    end
+  
+  initial
+    begin
+      
+      $dumpfile("dump.vcd");
+      $dumpvars(0,tb); 
+      $monitor("Time = %0t Seq_In = %b || Output = %b",$time,seq_in,out);
+      
+      reset=1;
+      seq_in=0;
+      
+      #10 reset =0;
+      #10 seq_in = 1;
+      #10 seq_in = 1;
+      #10 seq_in = 0;
+      #10 seq_in = 1;
+      #10 seq_in = 0;
+      #10 seq_in = 1;
+      #10 seq_in = 0;
+      #10 seq_in = 0;
+      
+      #10 $finish;
+    end
+endmodule
+      
